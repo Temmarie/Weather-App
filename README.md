@@ -1,5 +1,7 @@
 # Weather-App
 A weather app made from OpenWeatherMap API.
+This project covers usage of such technologies like: async JS, promises, async/await.
+Also this project presents knowledge of student about how to use a side API services.
 
 ![image](https://github.com/Temmarie/Weather-App/blob/feature/src/images/weatherscreen.png)
 
