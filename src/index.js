@@ -14,12 +14,12 @@ function setQuery(evt) {
   }
 }
 
-function getResults(query) {
-  fetch(`${api.base}weather?q=${query}&units=metric&APPID=${api.key}`)
+async function getResults(query) {
+  await fetch(`${api.base}weather?q=${query}&units=metric&APPID=${api.key}`)
     .then(weather => weather.json()).then(displayResults);//eslint-disable-line
 }
 
-function displayResults(weather) {
+const displayResults = (weather) => {
   const city = document.querySelector('.location .city');
   city.innerText = `${weather.name}, ${weather.sys.country}`;
 
@@ -35,9 +35,9 @@ function displayResults(weather) {
 
   const highLow = document.querySelector('.hi-low');
   highLow.innerText = `${Math.round(weather.main.temp_min)}°c / ${Math.round(weather.main.temp_max)}°c`;
-}
+};
 
-function dateBuilder(d) {
+const dateBuilder = (d) => {
   const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
   const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
@@ -47,4 +47,4 @@ function dateBuilder(d) {
   const year = d.getFullYear();
 
   return `${day} ${date} ${month} ${year}`;
-}
+};
