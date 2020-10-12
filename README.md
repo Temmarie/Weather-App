@@ -16,7 +16,7 @@ Also this project presents knowledge of student about how to use a side API serv
 - Eslint
 
 ## Live Link
-[Live demo](https://rawcdn.githack.com/Temmarie/Weather-App/402c36ac71e9de2d4b86d851c98a0c17038bd938/dist/index.html)
+[Live demo](https://rawcdn.githack.com/Temmarie/Weather-App/51e078a7105cf2e8fe291aa6adf03a83616b0d9f/dist/index.html)
 
 ### Setup
 
