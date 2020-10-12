@@ -1,3 +1,5 @@
+import './styles/index.css';
+
 const api = {
   key: '71a1d54910fc34b8989358aaf59ab093',
   base: 'https://api.openweathermap.org/data/2.5/',
