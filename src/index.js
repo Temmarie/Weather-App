@@ -27,9 +27,16 @@ const displayResults = (weather) => {
   const date = document.querySelector('.location .date');
   date.innerText = dateBuilder(now); //eslint-disable-line
 
-  const temp = document.querySelector('.current .temp');
-  temp.innerHTML = `${Math.round(weather.main.temp)}<span>°c</span>`;
+  // const temp = document.querySelector('.current .temp');
+  // temp.innerHTML = `${Math.round(weather.main.temp)}<span>°c</span>`;
 
+//code you sent
+  const tempInCel = Math.round(weather.main.temp);
+  function tempInFar(temp) {return Math.round((temp * (9/5)) + 32);};
+  const newTemp = tempInFar(tempInCel);
+  const temp = document.querySelector('.current .temp'); 
+  temp.innerHTML = `${tempInCel}<span>°C</span>/ ${newTemp}<span>°F</span>`;
+//stops here
   const weatherEl = document.querySelector('.current .weather');
   weatherEl.innerText = weather.weather[0].main;
 
