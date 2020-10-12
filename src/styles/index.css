@@ -67,7 +67,7 @@ main {
 
 .current .temp {
   color: #fff;
-  font-size: 102px;
+  font-size: 90px;
   font-weight: 900;
   margin: 30px 0;
   text-shadow: 2px 10px rgba(0, 0, 0, 0.6);
