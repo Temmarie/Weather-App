@@ -27,8 +27,15 @@ const displayResults = (weather) => {
   }
   const newTemp = tempInFar(tempInCel);
   const temp = document.querySelector('.current .temp');
-  temp.innerHTML = `${tempInCel}<span>°C</span> / ${newTemp}<span>°F</span>`;
+  temp.innerHTML = `${tempInCel}<span>°C</span>`;
 
+  temp.addEventListener('click', () => {
+    if (weather.temperature.unit === 'celcius') {
+      temp.innerHTML = `${newTemp}<span>°F</span>`;
+    } else {
+      temp.innerHTML = `${tempInCel}<span>°C</span>`;
+    }
+  });
   const weatherEl = document.querySelector('.current .weather');
   weatherEl.innerText = weather.weather[0].main;
   const highLow = document.querySelector('.hi-low');
