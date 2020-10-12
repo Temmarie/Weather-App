@@ -2,13 +2,14 @@ const api = {
   key: '71a1d54910fc34b8989358aaf59ab093',
   base: 'https://api.openweathermap.org/data/2.5/',
 };
+const searchbox = document.querySelector('.search-box');
 const setQuery = (evt) => {
   if (evt.keyCode === 13) {
-    getResults(searchbox.value);//eslint-disable-line
-    searchbox.value = '';//eslint-disable-line
+    // eslint-disable-next-line no-use-before-define
+    getResults(searchbox.value);
+    searchbox.value = '';
   }
 };
-const searchbox = document.querySelector('.search-box');
 searchbox.addEventListener('keypress', setQuery);//eslint-disable-line
 async function getResults(query) {
   await fetch(`${api.base}weather?q=${query}&units=metric&APPID=${api.key}`)
@@ -21,21 +22,22 @@ const displayResults = (weather) => {
   const date = document.querySelector('.location .date');
   date.innerText = dateBuilder(now); //eslint-disable-line
 
+  // degree toggle
   const tempInCel = Math.round(weather.main.temp);
   function tempInFar(temp) {
-    return Math.round((temp * (9/5)) + 32);//eslint-disable-line
+    return Math.round((temp * (9 / 5)) + 32);
   }
   const newTemp = tempInFar(tempInCel);
   const temp = document.querySelector('.current .temp');
-  temp.innerHTML = `${tempInCel}<span>°C</span>`;
-
+  temp.innerHTML = `${tempInCel}°C`;
   temp.addEventListener('click', () => {
-    if (weather.temperature.unit === 'celcius') {
-      temp.innerHTML = `${newTemp}<span>°F</span>`;
-    } else {
-      temp.innerHTML = `${tempInCel}<span>°C</span>`;
+    if (temp.innerHTML.includes('C')) {
+      temp.innerHTML = `${newTemp}°F`;
+    } else if (temp.innerHTML.includes('F')) {
+      temp.innerHTML = `${tempInCel}°C`;
     }
   });
+
   const weatherEl = document.querySelector('.current .weather');
   weatherEl.innerText = weather.weather[0].main;
   const highLow = document.querySelector('.hi-low');
