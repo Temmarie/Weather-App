@@ -5,26 +5,69 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 		<title>Weather App</title>
 		<link href="https://fonts.googleapis.com/css?family=Roboto:400,500,700" rel="stylesheet">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://kit.fontawesome.com/9faea4fa6b.js" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" href="../src/styles/index.css">
-  </head>
-  <body>
-<div class="app-wrap">
-    <header>
-      <input type="text" autocomplete="off" class="search-box" placeholder="Search for a city..." />
-    </header>
-    <main>
-      <section class="location">
-        <div class="city">Northampton, GB</div>
-        <div class="date">Thursday 10 January 2020</div>
-      </section>
-      <div class="current">
-        <div class="temp">15<span>°c</span></div>
-        <div class="weather">Sunny</div>
-        <div class="hi-low">13°c / 16°c</div>
-      </div>
-    </main>
+
+<body class="container-fluid ">
+
+  <div class="nav">
+    <a href="#" class="logo"><img src="../src/images/logomine.svg" alt="Logo"> Temmarie</a>
+    <div class="search-bar rounded-4">
+      <input type="text" autocomplete="off" class="search-input text-white" placeholder="Search for a city...">
+    </div>
+    <div class="icons">
+      <a href="#"><i class="fas fa-home"></i></a>
+      <a href="#"><i class="fas fa-globe"></i></a>
+      <a href="#"><i class="fas fa-location-dot"></i></a>
+    </div>
   </div>
-<script src="bundle.js"></script>
+
+
+
+  <!-- temperature display -->
+
+  <div class="mt-5 data-display d-flex justify-content-between ">
+    <section class="location bg-info">
+      <div class="city">Northampton, GB</div>
+      <div class="time">2:30 AM</div>
+      <div class="date">Thursday 10 January 2020</div>
+    </section>
+
+    <section class="current bg-warning">
+      <div class="temp">15<span>°c</span></div>
+      <div class="weather">Sunny</div>
+      <div class="hi-low">13°c / 16°c</div>
+    </section>
+
+    <section class="weather-info current bg-danger-subtle ">
+      <i class="fas fa-location-dot"></i>
+    </section>
+
+  </div>
+
+  
+  
+  <!-- just to make scrolling effect possible -->
+<!-- 
+  <main>
+    <section class="location">
+      <div class="city">Northampton, GB</div>
+      <div class="date">Thursday 10 January 2020</div>
+    </section>
+    <div class="current">
+      <div class="temp">15<span>°c</span></div>
+      <div class="weather">Sunny</div>
+      <div class="hi-low">13°c / 16°c</div>
+    </div>
+  </main>
+  
+ -->
+
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
+  <script src="bundle.js"></script>
+
 </body>
 </html>
