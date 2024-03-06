@@ -14,17 +14,15 @@ body {
 
 .nav {
   background-color: transparent; /* Transparent background */
-  padding: 10px;
-  display: flex;
   justify-content: space-around;
   align-items: center;
 }
 
 .logo {
-  color: white;
   font-size: 24px;
   text-decoration: none;
   margin-right: 20px;
+  color: antiquewhite;
 }
 
 .logo img {
@@ -42,13 +40,13 @@ body {
   width: 100%;
   padding: 6px;
   border-radius: 30px;
-  border: 2px solid #28C1E9;
+  border: 2px solid #05D3A2;
+  color: antiquewhite;
   background-color: transparent;
-  color: #fff;
 }
 
 .search-input::placeholder{
-  color: white;
+  color: antiquewhite;
 }
 .icons {
   display: contents;
@@ -56,7 +54,7 @@ body {
 }
 
 .icons a {
-  color: white;
+  color: antiquewhite;
   margin: 0 10px; /* Add more space around the icons */
   text-decoration: none;
 }
@@ -65,29 +63,31 @@ body {
   height: 175px;
   padding: 0;
   margin: 0;
+  display: flex;
+  justify-content: space-around;
 }
 
 .location{
   padding: 20px;
     height: 100%;
-    border: 1px solid white;
+    border: 1px solid antiquewhite;
     border-radius: 20px;
 }
 
 .location .city {
-  color: #fff;
+  color: antiquewhite;
   font-size: 23px;
   font-weight: 600;
   margin-bottom: 5px;
 }
 
 .location .date {
-  color: whitesmoke;
+  color: antiquewhite;
   font-size: 14px;
 }
 
 .location .time {
-  color: #fff;
+  color: #05D3A2;
   font-size: 23px;
   font-weight: bold;
   margin-bottom: 0;
@@ -96,13 +96,13 @@ body {
 .current {
   padding: 20px;
   border-radius: 20px;
-  border: 1px solid white;
+  border: 1px solid antiquewhite;
   height: 100%;
 }
 
 
 .current .temp {
-  color: #fff;
+  color: antiquewhite;
   font-size: 50px;
   font-weight: 500;
 }
@@ -112,7 +112,7 @@ body {
 }
 
 .current .weather {
-  color: #fff;
+  color: #05D3A2;
   font-size: 25px;
   font-weight: 700;
 }
@@ -124,7 +124,7 @@ body {
 
 .weather-info {
   border-radius: 20px;
-  border: 1px solid white;
+  border: 1px solid antiquewhite;
   height: 100%;
 }
 
@@ -141,8 +141,8 @@ body {
 .sunrise, .sunset, .wind, .humidity  {
   padding: 10px;
   border-radius: 10px; /* Rounded border */
-  border: 1px solid #fff; /* White border */
-  color: #fff;
+  border: 1px solid antiquewhite; /* White border */
+  color: antiquewhite;
   position: relative; /* Enable positioning of icons */
 }
 
@@ -156,20 +156,8 @@ body {
   transform: translateY(-50%); /* Center vertically */
 }
 
-.fa-sun {
-  color: #ffcc00; /* Yellow color for sunrise icon */
-}
-
-.fa-moon {
-  color: #ff6600; /* Orange color for sunset icon */
-}
-
-.fa-wind{
-  color: #3399ff; /* Blue color for wind icon */
-}
-
-.fa-droplet{
-  color: #66cc00; /* Green color for humidity icon */
+.fa-sun, .fa-moon, .fa-wind, .fa-droplet {
+  color: #05D3A2; /* Yellow color for sunrise icon */
 }
 
 
@@ -187,13 +175,13 @@ body {
 }
 
 .celcius h3 {
-  color: #ffcc00; /* Yellow background */
+
   font-weight: 700;
 }
 
 .farenheit h3 {
-  color: #ff6600; /* Orange background */
   font-weight: 700;
 }
 
 /* add media queries for responsiveness */
+

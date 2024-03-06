@@ -55,7 +55,7 @@ function formatTime(timestamp) {
   const date = new Date(timestamp * 1000); // Convert timestamp to milliseconds
   const hours = date.getHours();
   const minutes = date.getMinutes().toString().padStart(2, '0'); // Ensure minutes are always two digits
-  
+
   // Format time to 'hh:mm'
   return `${hours}:${minutes}`;
 }
@@ -78,19 +78,26 @@ const displayResults = (weather) => {
   const tempSpan = tempContainer.querySelector('span');
 
   // Initialize temperature display
+  // Initialize temperature display
   let isCelsius = true; // Track whether temperature is in Celsius or Fahrenheit
   let currentTemp = weather.main.temp; // Store the current temperature value
 
   // Function to toggle temperature unit
   const toggleTempUnit = () => {
     if (isCelsius) {
-      // Convert to Fahrenheit
+    // Convert to Fahrenheit
       currentTemp = tempInFar(currentTemp);
       tempSpan.textContent = '°F';
+      // Set color for Celsius and Fahrenheit buttons
+      celciusBtn.style.color = 'antiquewhite';
+      farenheitBtn.style.color = '#05D3A2';
     } else {
-      // Convert to Celsius
+    // Convert to Celsius
       currentTemp = weather.main.temp;
       tempSpan.textContent = '°C';
+      // Set color for Celsius and Fahrenheit buttons
+      celciusBtn.style.color = '#05D3A2';
+      farenheitBtn.style.color = 'antiquewhite';
     }
     tempContainer.innerHTML = `${Math.round(currentTemp)}<span>${tempSpan.textContent}</span>`;
     isCelsius = !isCelsius; // Toggle temperature unit
@@ -112,7 +119,7 @@ const displayResults = (weather) => {
   // Display weather image
   const weatherImage = document.getElementById('weatherImage');
   const weatherCondition = weather.weather[0].main.toLowerCase();
-  console.log('Weather condition:', weatherCondition); 
+  console.log('Weather condition:', weatherCondition);
   weatherImage.src = getImageUrl(weatherCondition);
 
   // Display sunrise, sunset, wind, and humidity
@@ -140,7 +147,6 @@ const timeBuilder = (d, timeZoneOffset) => {
   return `${formattedHours}:${formattedMinutes} ${period}`;
 };
 
-
 const dateBuilder = (d) => {
   const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
   const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
@@ -156,6 +162,37 @@ function tempInFar(temp) {
 }
 
 // geolocation
+
+async function getWeatherByNearestPlace(latitude, longitude) {
+  try {
+    // Fetch weather data for the nearest place based on latitude and longitude
+    const reverseGeocodingAPI = `https://api.openweathermap.org/geo/1.0/reverse?lat=${latitude}&lon=${longitude}&limit=1&appid=${api.key}`;
+    const response = await fetch(reverseGeocodingAPI);
+    const data = await response.json();
+
+    // Extract the nearest place name from the response
+    const nearestPlaceName = data[0].name;
+
+    // Now fetch weather data for the nearest place
+    const weatherResponse = await fetch(`${api.base}weather?q=${nearestPlaceName}&units=metric&APPID=${api.key}`);
+    const weatherData = await weatherResponse.json();
+
+    // Display weather results for the nearest place
+    displayResults(weatherData);
+  } catch (error) {
+    console.error('Error fetching weather data for the nearest place:', error);
+  }
+}
+
+async function getWeatherByCoords(latitude, longitude) {
+  try {
+    const response = await fetch(`${api.base}weather?lat=${latitude}&lon=${longitude}&units=metric&APPID=${api.key}`);
+    const weather = await response.json();
+    displayResults(weather);
+  } catch (error) {
+    console.error('Error fetching weather data:', error);
+  }
+}
 
 getLocation();
 function getLocation() {
@@ -180,26 +217,5 @@ function getLocation() {
   } else {
     console.log('Geolocation is not supported by this browser.');
     // Handle unsupported browser case
-  }
-}
-
-async function getWeatherByNearestPlace(latitude, longitude) {
-  try {
-    // Fetch weather data for the nearest place based on latitude and longitude
-    const reverseGeocodingAPI = `https://api.openweathermap.org/geo/1.0/reverse?lat=${latitude}&lon=${longitude}&limit=1&appid=${api.key}`;
-    const response = await fetch(reverseGeocodingAPI);
-    const data = await response.json();
-
-    // Extract the nearest place name from the response
-    const nearestPlaceName = data[0].name;
-
-    // Now fetch weather data for the nearest place
-    const weatherResponse = await fetch(`${api.base}weather?q=${nearestPlaceName}&units=metric&APPID=${api.key}`);
-    const weatherData = await weatherResponse.json();
-
-    // Display weather results for the nearest place
-    displayResults(weatherData);
-  } catch (error) {
-    console.error('Error fetching weather data for the nearest place:', error);
   }
 }
