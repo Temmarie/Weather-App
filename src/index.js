@@ -66,6 +66,9 @@ const displayResults = (weather) => {
   console.log(city);
   city.innerText = `${weather.name}, ${weather.sys.country}`;
 
+  const highLow = document.querySelector('.hi-low');
+  highLow.innerText = `${Math.round(weather.main.temp_min)}°c / ${Math.round(weather.main.temp_max)}°c`;
+
   const now = new Date();
   const date = document.querySelector('.location .date');
   date.innerText = dateBuilder(now);
@@ -134,7 +137,99 @@ const displayResults = (weather) => {
 
   const humidity = document.querySelector('.humidity small');
   humidity.innerHTML = `${weather.main.humidity}% <i class="fas fa-droplet"></i>`;
+
+  // Fetch and display hourly weather data
+  getHourlyWeatherByCoords(weather.coord.lat, weather.coord.lon);
+
+  // Fetch and display weekly weather data
+  getWeeklyWeatherByCoords(weather.coord.lat, weather.coord.lon);
 };
+
+// Function to fetch hourly weather data based on coordinates
+async function getHourlyWeatherByCoords(latitude, longitude) {
+  try {
+    const response = await fetch(`${api.base}onecall?lat=${latitude}&lon=${longitude}&exclude=current,minutely,daily&units=metric&appid=${api.key}`);
+    const weatherData = await response.json();
+    displayHourlyWeather(weatherData.hourly);
+  } catch (error) {
+    console.error('Error fetching hourly weather data:', error);
+  }
+}
+
+// Function to display weekly weather forecast
+function displayWeeklyWeather(weeklyData) {
+  const weeklyForecastContainer = document.getElementById('weeklyForecast');
+  weeklyForecastContainer.innerHTML = ''; // Clear previous content
+
+  weeklyData.forEach((dayData) => {
+    const day = formatDay(dayData.dt);
+    const temperatureMin = Math.round(dayData.temp.min);
+    const temperatureMax = Math.round(dayData.temp.max);
+    const weatherIcon = dayData.weather[0].icon;
+
+    const timeBlock = document.createElement('div');
+    timeBlock.classList.add('time-block');
+    timeBlock.innerHTML = `
+      <div class="time">${day}</div>
+      <div class="weather-image">
+        <img src="http://openweathermap.org/img/wn/${weatherIcon}.png" alt="Weather Icon">
+      </div>
+      <div class="hi-low">${temperatureMin}°C / ${temperatureMax}°C</div>
+    `;
+
+    weeklyForecastContainer.appendChild(timeBlock);
+  });
+}
+
+// Function to format day (e.g., "Mon", "Tue", etc.)
+function formatDay(timestamp) {
+  const date = new Date(timestamp * 1000);
+  return date.toLocaleDateString('en-US', { weekday: 'short' });
+}
+
+// Function to display hourly weather forecast
+function displayHourlyWeather(hourlyData) {
+  const currentDate = new Date();
+  const currentDay = currentDate.getDate();
+
+  const hourlyForecastContainer = document.getElementById('hourlyForecast');
+  hourlyForecastContainer.innerHTML = ''; // Clear previous content
+
+  hourlyData.forEach((hourData) => {
+    const date = new Date(hourData.dt * 1000);
+    const day = date.getDate();
+
+    if (day === currentDay && date.getHours() % 2 === 0) {
+      const time = formatTime(hourData.dt);
+      const temperature = Math.round(hourData.temp);
+      const weatherIcon = hourData.weather[0].icon;
+
+      const timeBlock = document.createElement('div');
+      timeBlock.classList.add('time-block');
+      timeBlock.innerHTML = `
+        <div class="time">${time}</div>
+        <div class="weather-image">
+          <img src="http://openweathermap.org/img/wn/${weatherIcon}.png" alt="Weather Icon">
+        </div>
+        <div>${temperature}°C</div>
+      `;
+
+      hourlyForecastContainer.appendChild(timeBlock);
+    }
+  });
+}
+
+// Function to fetch weekly weather data based on coordinates
+async function getWeeklyWeatherByCoords(latitude, longitude) {
+  try {
+    const response = await fetch(`${api.base}onecall?lat=${latitude}&lon=${longitude}&exclude=current,minutely,hourly&units=metric&appid=${api.key}`);
+    const weatherData = await response.json();
+    displayWeeklyWeather(weatherData.daily);
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.error('Error fetching weekly weather data:', error);
+  }
+}
 
 // Function to format the time (e.g., "2:30 AM")
 const timeBuilder = (d, timeZoneOffset) => {
@@ -217,5 +312,41 @@ function getLocation() {
   } else {
     console.log('Geolocation is not supported by this browser.');
     // Handle unsupported browser case
+  }
+}
+
+async function getDailyWeatherByCoords(latitude, longitude) {
+  try {
+    const response = await fetch(`${api.base}onecall?lat=${latitude}&lon=${longitude}&exclude=current,minutely&units=metric&appid=${api.key}`);
+    const weatherData = await response.json();
+    displayHourlyWeather(weatherData.hourly);
+    displayWeeklyWeather(weatherData.daily);
+  } catch (error) {
+    console.error('Error fetching daily weather data:', error);
+  }
+}
+
+// Call getWeatherByCoords when the user's location is retrieved
+navigator.geolocation.getCurrentPosition(
+  (position) => {
+    const { latitude, longitude } = position.coords;
+    getWeatherByCoords(latitude, longitude);
+  },
+  (error) => {
+    console.error('Error getting user location:', error.message);
+    // Handle error
+  },
+);
+
+// Update the search functionality to fetch weather data for the searched location
+async function getWeatherByQuery(query) {
+  try {
+    const response = await fetch(`${api.base}weather?q=${query}&units=metric&appid=${api.key}`);
+    const weatherData = await response.json();
+    displayResults(weatherData);
+    getDailyWeatherByCoords(weatherData.coord.lat, weatherData.coord.lon);
+  } catch (error) {
+    console.error('Error fetching weather data:', error);
+    // Handle error
   }
 }
