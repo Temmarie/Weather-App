@@ -3,94 +3,45 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Weather Forecast</title>
-  <style>
-    /* Styling for tabs */
-    .tab {
-      display: inline-block;
-      padding: 10px 20px;
-      cursor: pointer;
-      background-color: #f0f0f0;
-      border: 1px solid #ccc;
-      border-bottom: none;
-      border-radius: 5px 5px 0 0;
-    }
-
-    .tab.active {
-      background-color: #fff;
-      border-bottom: 1px solid #fff;
-    }
-
-    /* Styling for forecast container */
-    .forecast-container {
-      display: none;
-      padding: 20px;
-      border: 1px solid #ccc;
-      border-top: none;
-      border-radius: 0 0 5px 5px;
-    }
-
-    .forecast-container.active {
-      display: block;
-    }
-
-    /* Additional styling */
-    .row {
-      display: flex;
-      justify-content: space-around;
-    }
-
-    .forecast {
-      width: 45%;
-    }
-  </style>
+  <title>Weather Assistant</title>
 </head>
 <body>
-  <div class="row">
-    <div class="tab active" onclick="showTab('daily')">Daily</div>
-    <div class="tab" onclick="showTab('weekly')">Weekly</div>
-  </div>
+  <h1>Weather Assistant</h1>
 
-  <div id="dailyForecast" class="forecast-container active">
-    <h2>Daily Weather Forecast</h2>
-    <!-- Insert daily weather forecast here -->
-    <p>Today: Sunny, 25°C</p>
-    <p>Tomorrow: Partly cloudy, 22°C</p>
-    <p>Day after tomorrow: Rainy, 18°C</p>
-  </div>
 
-  <div id="weeklyForecast" class="forecast-container">
-    <h2>Weekly Weather Forecast</h2>
-    <!-- Insert weekly weather forecast here -->
-    <p>Monday: Sunny, 23°C</p>
-    <p>Tuesday: Cloudy, 20°C</p>
-    <p>Wednesday: Rainy, 17°C</p>
-    <p>Thursday: Partly cloudy, 21°C</p>
-    <p>Friday: Sunny, 25°C</p>
-    <p>Saturday: Rainy, 19°C</p>
-    <p>Sunday: Partly cloudy, 22°C</p>
-  </div>
-
+  
   <script>
-    function showTab(tabName) {
-      const tabs = document.querySelectorAll('.tab');
-      tabs.forEach(tab => {
-        if (tab.textContent.toLowerCase() === tabName.toLowerCase()) {
-          tab.classList.add('active');
-        } else {
-          tab.classList.remove('active');
-        }
-      });
-
-      const forecastContainers = document.querySelectorAll('.forecast-container');
-      forecastContainers.forEach(container => {
-        if (container.id.toLowerCase().includes(tabName.toLowerCase())) {
-          container.classList.add('active');
-        } else {
-          container.classList.remove('active');
-        }
-      });
+    window.embeddedChatbotConfig = {
+      chatbotId: "ASydxupMO0qzIBZkMzi4E",
+      domain: "www.chatbase.co"
+    };
+  
+    // Function to fetch weather data from OpenWeatherMap API
+    async function fetchWeatherData(city) {
+      const apiKey = '71a1d54910fc34b8989358aaf59ab093';
+      const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}`);
+      const data = await response.json();
+      return data;
+    }
+  
+    // Function to handle user input and pass weather context to chatbot
+    async function handleUserInput(userInput) {
+      const weatherData = await fetchWeatherData('London'); // Replace 'London' with the user's location input
+      const temperature = weatherData.main.temp;
+      const weatherDescription = weatherData.weather[0].description;
+  
+      // Pass user input and weather context to chatbot
+      window.embeddedChatbotConfig.context = {
+        userInput,
+        temperature,
+        weatherDescription
+      };
+  
+      // Initialize the embedded chatbot with updated configuration
+      window.ChatbaseWidget.init(window.embeddedChatbotConfig);
     }
   </script>
+  <script src="https://www.chatbase.co/embed.min.js" chatbotId="ASydxupMO0qzIBZkMzi4E" domain="www.chatbase.co" defer></script>
+  
 </body>
 </html>

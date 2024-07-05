@@ -1,3 +1,5 @@
+import { suggestActivities } from "./chatai";
+
 const api = {
   key: '71a1d54910fc34b8989358aaf59ab093',
   base: 'https://api.openweathermap.org/data/2.5/',
@@ -143,6 +145,13 @@ const displayResults = (weather) => {
 
   // Fetch and display weekly weather data
   getWeeklyWeatherByCoords(weather.coord.lat, weather.coord.lon);
+
+   // Call the function to suggest activities based on weather conditions
+  suggestActivities(weather)
+    .then(activitySuggestions => {
+      // Display activity suggestions in the UI
+      displayActivitySuggestions(activitySuggestions);
+    });
 };
 
 // Function to fetch hourly weather data based on coordinates
